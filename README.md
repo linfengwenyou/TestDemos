@@ -44,6 +44,22 @@
 }
 ```
 
+### 扫码
+
+ `FMScannerVC`
+
+#### 示例：
+
+```
+ FMScannerVC *scanner = [[FMScannerVC alloc] init];
+ scanner.scanType = FMCodeScannerTypeBarcode;
+ [self presentViewController:scanner animated:YES completion:nil];
+ scanner.scanResultBlock = ^(NSString *value) {
+    操作扫描到的信息
+ };
+```
+
+
 
 ### 附：
 
