@@ -8,7 +8,7 @@
 
 #import "FMScannerVC.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "ScannerView.h"
 
 #define kScanViewWH 0.7 * [UIScreen mainScreen].bounds.size.width
 #define kScanViewY 0.2 * [UIScreen mainScreen].bounds.size.height
@@ -184,8 +184,8 @@
     CGFloat x = (mainBounds.size.width - kScanViewWH)/2.0f;
     
     //中间扫描区域
-    UIImageView *scanCropView=[[UIImageView alloc] initWithFrame:CGRectMake(x,kScanViewY, kScanViewWH, kScanViewWH)];
-    scanCropView. backgroundColor =[ UIColor clearColor];
+    ScannerView *scanCropView=[[ScannerView alloc] initWithFrame:CGRectMake(x,kScanViewY, kScanViewWH, kScanViewWH)];
+    scanCropView.backgroundColor =[ UIColor clearColor];
     scanCropView.layer.borderColor = [UIColor whiteColor].CGColor;
     scanCropView.layer.borderWidth = 0.5f;
     
