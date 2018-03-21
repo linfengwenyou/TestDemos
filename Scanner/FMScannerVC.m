@@ -9,10 +9,10 @@
 #import "FMScannerVC.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ScannerView.h"
-
+#import <ZXingWrapper.h> // 相册扫码使用
 #define kScanViewWH 0.7 * [UIScreen mainScreen].bounds.size.width
 #define kScanViewY 0.2 * [UIScreen mainScreen].bounds.size.height
-@interface FMScannerVC ()<AVCaptureMetadataOutputObjectsDelegate>
+@interface FMScannerVC ()<AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *session;
 @property (nonatomic, assign) BOOL isReading;
@@ -27,6 +27,7 @@
 @implementation FMScannerVC
 
 
+#pragma mark - init
 - (id)init {
     self = [super init];
     if (self) {
@@ -97,6 +98,7 @@
     
     [self startRunning];
 }
+
 
 
 - (void)viewDidAppear:(BOOL)animated
@@ -226,6 +228,14 @@
     [backButton setImage:[UIImage imageNamed:@"scanner_back"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(pressBackButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
+    
+    
+    UIButton *pictureButton = [[UIButton alloc] initWithFrame:CGRectMake(mainBounds.size.width - 100, 20, 60, 44)];
+    [pictureButton setTitle:@"扫描图片" forState:UIControlStateNormal];
+    pictureButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+    [pictureButton addTarget:self action:@selector(getPicture:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:pictureButton];
+
 }
 
 - (void)startRunning {
@@ -250,6 +260,17 @@
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (void)getPicture:(UIButton *)sender
+{
+    // 配置图片信息
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    imagePickerController.allowsEditing = YES;  // iOS8可能crash， 但是相册扫码有必要
+    imagePickerController.delegate = self;
+    
+    [self presentViewController:imagePickerController animated:YES completion:nil];
 }
 
 
@@ -288,5 +309,41 @@
     }
 }
 
+
+#pragma mark - pickerview Delegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+// 备注，原生代码可以做到通过相册识别二维码，但是不可以识别条形码，为了可以识别条形码，需要借助第三方
+#warning lius  如果需要通过相册来获取条形码或者二维码可以通过以下策略
+    
+    __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    if (!image){
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    
+    [ZXingWrapper recognizeImage:image block:^(ZXBarcodeFormat barcodeFormat, NSString *str) {
+        if (self.scanResultBlock) {
+            self.scanResultBlock(str?:@"");
+        }
+    }];
+    
+    
+}
+
+/**
+ 使用相册扫描需要配置如下：
+ 集成第三方，配置 Podfile
+ platform :ios, '8.0'
+ 
+ target 'yourProject' do
+ pod 'LBXScan/LBXZXing','~> 2.3'
+ end
+
+ 
+ 导入类：
+ #import <ZXingWrapper.h>
+ */
 
 @end
