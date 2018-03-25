@@ -332,6 +332,30 @@
     
 }
 
+/** 需要配置入口事件*/
+- (void)setFlashLightOpen:(BOOL)open
+{
+    if (open) { //打开闪光灯
+        AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        NSError *error = nil;
+        if ([captureDevice hasTorch]) {
+            BOOL locked = [captureDevice lockForConfiguration:&error];
+            if (locked) {
+                captureDevice.torchMode = AVCaptureTorchModeOn;
+                [captureDevice unlockForConfiguration];
+            }
+        }
+    } else {//关闭闪光灯
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch]) {
+            [device lockForConfiguration:nil];
+            [device setTorchMode: AVCaptureTorchModeOff];
+            [device unlockForConfiguration];
+        }
+    }
+}
+
+
 /**
  使用相册扫描需要配置如下：
  集成第三方，配置 Podfile
