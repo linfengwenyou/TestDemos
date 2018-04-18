@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FMVertificationCodeInputView;
+@protocol FMVertificationCodeInputViewDelegate<NSObject>
+/** 授权码信息调整 */
+- (void)codeInputView:(FMVertificationCodeInputView *)codeView authCode:(NSString *)authCode;
+@end
 
 @interface FMVertificationCodeInputView : UIView
 
@@ -18,6 +23,8 @@
 @property (nonatomic,assign)bool secureTextEntry;
 /**验证码/密码内容，可以通过该属性拿到验证码/密码输入框中验证码/密码的内容*/
 @property (nonatomic,copy)NSString *vertificationCode;
+/** 代理配置 */
+@property (nonatomic, weak) id <FMVertificationCodeInputViewDelegate> delegate;
 
 -(void)becomeFirstResponder;
 

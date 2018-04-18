@@ -85,7 +85,6 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    
     // 判断是不是“删除”字符
     if (string.length !=0) {//不是“删除”字符
         // 判断验证码/密码的位数是否达到预定的位数
@@ -106,5 +105,14 @@
     }
 }
 
+- (void)setVertificationCode:(NSString *)vertificationCode
+{
+    _vertificationCode = vertificationCode;
+    if ([self.delegate respondsToSelector:@selector(codeInputView:authCode:)]) {
+        [self.delegate codeInputView:self authCode:_vertificationCode];
+    } else {
+        NSLog(@"未设置回调信息");
+    }
+}
 
 @end
