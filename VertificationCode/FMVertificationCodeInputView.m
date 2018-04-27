@@ -9,7 +9,7 @@
 #import "FMVertificationCodeInputView.h"
 #import "FMInputLabel.h"
 
-@interface FMVertificationCodeInputView()<UITextFieldDelegate>
+@interface FMVertificationCodeInputView()
 
 /**用于获取键盘输入的内容，实际不显示*/
 @property (nonatomic,strong)UITextField *textField;
@@ -49,7 +49,7 @@
     // 隐藏textField，通过点击IDVertificationCodeInputView使其成为第一响应者，来弹出键盘
     self.textField.hidden =YES;
     self.textField.keyboardType =UIKeyboardTypeNumberPad;
-    self.textField.delegate =self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:self.textField];
     // 将textField放到最后边
     [self insertSubview:self.textField atIndex:0];
     /* 添加用于显示验证码/密码的label */
@@ -58,6 +58,24 @@
     self.label.secureTextEntry =self.secureTextEntry;
     self.label.font =self.textField.font;
     [self addSubview:self.label];
+    
+    // 监听键盘弹出时间
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:self.textField];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)setBackgroudImageName:(NSString *)backgroudImageName {
@@ -83,26 +101,38 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.textField becomeFirstResponder];
 }
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    // 判断是不是“删除”字符
-    if (string.length !=0) {//不是“删除”字符
-        // 判断验证码/密码的位数是否达到预定的位数
-        if (textField.text.length <self.numberOfVertificationCode) {
-            self.label.text = [textField.text stringByAppendingString:string];
-            self.vertificationCode =self.label.text;
-            if (self.label.text.length == self.numberOfVertificationCode) {
-                NSLog(@"tag 已经输入完成验证码了vertificationCode= %@",_vertificationCode);
-            }
-            return YES;
-        } else {
-            return NO;
-        }
-    } else {//是“删除”字符
-        self.label.text = [textField.text substringToIndex:textField.text.length -1];
+
+- (void)textFieldDidChange:(NSNotification *)noti
+{
+    if (self.textField.text.length <= self.numberOfVertificationCode) {
+        self.label.text = self.textField.text;
         self.vertificationCode =self.label.text;
-        return YES;
+        if (self.label.text.length == self.numberOfVertificationCode) {
+            NSLog(@"tag 已经输入完成验证码了vertificationCode= %@",_vertificationCode);
+        }
+    } else {
+        self.textField.text = [self.textField.text substringToIndex:self.numberOfVertificationCode];
     }
+}
+
+
+
+#pragma mark - notification
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    self.label.showCursor = YES;
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    self.label.showCursor = NO;
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"text field did end editing");
 }
 
 - (void)setVertificationCode:(NSString *)vertificationCode
@@ -113,6 +143,13 @@
     } else {
         NSLog(@"未设置回调信息");
     }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.label.frame = self.bounds;
+    NSLog(@"调整布局");
 }
 
 @end

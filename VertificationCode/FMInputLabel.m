@@ -13,6 +13,8 @@
 @interface FMInputLabel()
 /** 光标 */
 @property (nonatomic, strong) UIView *cursorLine;
+@property (nonatomic, assign) CGPoint cursorCenter;
+@property (nonatomic, assign) BOOL firstDraw;
 @end
 
 @implementation FMInputLabel
@@ -78,9 +80,12 @@
         }
     }
     //绘制底部横线
+    if (!self.firstDraw) { // 绘制一次就好
+        [self createBootomLine:rect];
+        self.firstDraw = YES;
+    }
+    
     for (int k=0; k<self.numberOfVertificationCode; k++) {
-        [self drawBottomLineWithRect:rect andIndex:k];
-//        [self drawSenterLineWithRect:rect andIndex:k];
         [self updatecursor:rect andIndex:k];
     }
     
@@ -97,16 +102,18 @@
     CGFloat lineHidth =0.25*ADAPTER_RATE;
     CGFloat strokHidth =0.5*ADAPTER_RATE;
     CGContextSetLineWidth(context, lineHidth);
-    if ( k<=self.text.length ) {
-        CGContextSetStrokeColorWithColor(context,HexRGB(0xEB3341).CGColor);
-        CGContextSetFillColorWithColor(context,HexRGB(0xEB3341).CGColor);
-    }else{
-        CGContextSetStrokeColorWithColor(context,HexRGB(0xCCCCCD).CGColor);
-        CGContextSetFillColorWithColor(context,HexRGB(0xCCCCCD).CGColor);
-    }
+//    if ( k<=self.text.length ) {
+//        CGContextSetStrokeColorWithColor(context,HexRGB(0xEB3341).CGColor);
+//        CGContextSetFillColorWithColor(context,HexRGB(0xEB3341).CGColor);
+//    }else{
+//    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+        CGContextSetStrokeColorWithColor(context,HexRGB(0xd4c7ca).CGColor);
+        CGContextSetFillColorWithColor(context,HexRGB(0xd4c7ca).CGColor);
+//    }
     
     CGRect rectangle =CGRectMake(k*width+width/10,height-lineHidth-strokHidth,width-width/5,strokHidth);
     CGContextAddRect(context, rectangle);
+    CGContextFillPath(context);
     CGContextStrokePath(context);
 }
 //绘制中间的输入的线条
@@ -138,6 +145,25 @@
     return opacityAnimation;
 }
 
+- (void)createBootomLine:(CGRect)rect
+{
+    for (int i = 0; i < self.numberOfVertificationCode; i++) {
+        float width = rect.size.width / (float)self.numberOfVertificationCode;
+        float height = rect.size.height;
+        CGFloat lineHidth =0.25*ADAPTER_RATE;
+        CGFloat strokHidth =0.5*ADAPTER_RATE;
+        
+        CGRect rectangle =CGRectMake(i*width+width/10,height-lineHidth-strokHidth,width-width/5,strokHidth);
+        
+        CALayer *bottomLine = [[CALayer alloc] init];
+        bottomLine.frame = rectangle;
+        bottomLine.backgroundColor =HexRGB(0xd4c7ca).CGColor;
+        
+        [self.layer addSublayer:bottomLine];
+    }
+    
+}
+
 - (void)updatecursor:(CGRect)rect1 andIndex:(int)k
 {
     if (k == self.text.length) {
@@ -150,15 +176,26 @@
     if (self.text.length == self.numberOfVertificationCode) {
         self.cursorLine.hidden = YES;
     }
+    self.cursorCenter = self.cursorLine.center;
 }
 
 - (UIView *)cursorLine
 {
     if (!_cursorLine) {
         _cursorLine = [[UIView alloc] init];
-        _cursorLine.bounds = CGRectMake(0, 0, 1, 20);
-        _cursorLine.backgroundColor = [UIColor redColor];
+        _cursorLine.bounds = CGRectMake(0, 0, 2, 20);
+        _cursorLine.backgroundColor = HexRGB(0xff398d);
+        _cursorLine.layer.cornerRadius = 1.25;
+        _cursorLine.clipsToBounds = YES;
     }
     return _cursorLine;
 }
+- (void)setShowCursor:(BOOL)showCursor
+{
+    _showCursor = showCursor;
+    
+    self.cursorLine.hidden = !_showCursor;
+    self.cursorLine.center = CGPointMake(self.cursorCenter.x+3, self.cursorCenter.y);
+}
+
 @end
