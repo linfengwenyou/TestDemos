@@ -83,8 +83,6 @@
 @property (nonatomic, strong) FMCyclePageControl *pageControl;
 @property (nonatomic, strong) UIImage *placeholderImage;
 
-@property (nonatomic, strong) NSMutableArray *datas;
-
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) BOOL disableTimer;
 
@@ -115,7 +113,6 @@
 
 - (void)initialization
 {
-    _datas = [[NSMutableArray alloc] init];
     _timeInterval = 3;
 }
 
@@ -136,9 +133,8 @@
     
     [self addSubview:self.pageControl];
     
-#pragma mark - 需要配置回去
     self.mainView.frame = self.bounds;
-    self.pageControl.center = CGPointMake(self.mainView.center.x, self.frame.size.height - 10);
+    self.pageControl.center = CGPointMake(self.mainView.center.x, self.frame.size.height - 6);
     self.pageControl.bounds = CGRectMake(0, 0, self.bounds.size.width, 12);
 
 }
@@ -161,7 +157,7 @@
 - (void)reloadDatas
 {
     [self.mainView reloadData];
-    if (self.datas.count > 1)
+    if (self.totalCount > 1)
     {
         NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:50];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -201,7 +197,7 @@
     // 2.计算出下一个需要展示的位置
     NSUInteger nextItem = currentIndexPathReset.item + 1;
     NSUInteger nextSection = currentIndexPathReset.section;
-    NSInteger totalCount = self.imageURLs ? self.imageURLs.count : self.imageNames.count ;
+    NSInteger totalCount = self.totalCount ;
     if (nextItem == totalCount) {
         nextItem = 0;
         nextSection ++;
@@ -223,8 +219,7 @@
 #pragma mark - delegate
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    if (self.imageURLs.count == 1 ||
-        self.imageNames.count == 1) {
+    if (self.totalCount == 1) {
         return 1;
     }
     return 100;
@@ -232,7 +227,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.datas.count;
+    return self.totalCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -249,7 +244,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.itemSelectedAction) {
-        if (1 == self.datas.count) {
+        if (1 == self.totalCount) {
             self.itemSelectedAction(0);
         }  else {
             self.itemSelectedAction(indexPath.row);
@@ -259,7 +254,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    int page = (int)((scrollView.contentOffset.x + 21) / (self.mainView.bounds.size.width)) % self.datas.count;
+    int page = (int)((scrollView.contentOffset.x + 21) / (self.mainView.bounds.size.width)) % self.totalCount;
     self.pageControl.currentPage = page;
 }
 
@@ -284,46 +279,33 @@
 }
 
 #pragma mark - setter
-- (void)setImageURLs:(NSArray *)imageURLs
+
+- (void)setTotalCount:(NSUInteger)totalCount
 {
-    _imageURLs = imageURLs;
-    if (_imageURLs.count)  {
-        [self.datas removeAllObjects];
-        self.pageControl.numberOfPages = _imageURLs.count;
-        self.pageControl.currentPage = 0;
-        [self.datas addObjectsFromArray:_imageURLs];
-    }
-    
+    _totalCount  = totalCount;
+    self.pageControl.numberOfPages = self.totalCount;
+    self.pageControl.currentPage = 0;
 }
 
-- (void)setImageNames:(NSArray *)imageNames
+- (void)setPageControlNormalColor:(UIColor *)pageControlNormalColor
 {
-    _imageNames = imageNames;
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (NSString *name in _imageNames)
-    {
-        UIImage *image = [UIImage imageNamed:name];
-        [images addObject:image];
-    }
-    
-    if (images.count)
-    {
-        [self.datas removeAllObjects];
-        self.pageControl.numberOfPages = images.count;
-        self.pageControl.currentPage = 0;
-        [self.datas addObjectsFromArray:images];
-    }
-    
+    _pageControlNormalColor = pageControlNormalColor;
+    self.pageControl.pageIndicatorTintColor = _pageControlNormalColor;
 }
 
+- (void)setPageControlCurrentSelectColor:(UIColor *)pageControlCurrentSelectColor
+{
+    _pageControlCurrentSelectColor = pageControlCurrentSelectColor;
+    self.pageControl.currentPageIndicatorTintColor = _pageControlCurrentSelectColor;
+}
 
 - (FMCyclePageControl *)pageControl
 {
     if (!_pageControl)
     {
         _pageControl = [[FMCyclePageControl alloc] initWithFrame:CGRectZero];
-        _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
-        _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
+        _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
         _pageControl.hidesForSinglePage = YES;
     }
     return _pageControl;

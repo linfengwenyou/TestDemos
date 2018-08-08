@@ -28,10 +28,8 @@ typedef UICollectionViewCell *(^FMCellConfigureAction)(UICollectionView *collect
 @property (nonatomic, assign) CGSize itemSize;  // 默认为容器尺寸
 @property (nonatomic, assign) CGFloat itemLinePadding;
 
-/** 配置imageUrl之前必须配置cell */
-@property (nonatomic, copy) NSArray *imageURLs;
-@property (nonatomic, copy) NSArray *imageNames;
-
+/** 总数量 */
+@property (nonatomic, assign) NSUInteger totalCount;
 /** 动画展示样式  */
 @property (nonatomic, assign) FMCustomAdAnimationType animationType;
 
@@ -40,7 +38,7 @@ typedef UICollectionViewCell *(^FMCellConfigureAction)(UICollectionView *collect
 
 + (instancetype)customScrollViewWithFrame:(CGRect)frame placeholder:(UIImage *)image;
 
-/** 配置结束，开始展示view */
+/** 此方法必须调用，否则不会展示任何事件 配置结束，开始展示view */
 - (void)finishConfigureView;
 
 @end

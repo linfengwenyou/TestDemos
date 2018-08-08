@@ -23,9 +23,13 @@ typedef UICollectionViewCell *(^FMCellConfigureAction)(UICollectionView *collect
 /** cell 配置 */
 @property (nonatomic, copy) FMCellConfigureAction cellConfigure;
 
-/** 配置imageUrl之前必须配置cell */
-@property (nonatomic, copy) NSArray *imageURLs;
-@property (nonatomic, copy) NSArray *imageNames;
+/** pagecontrol 颜色 */
+@property (nonatomic, strong) UIColor *pageControlNormalColor;
+@property (nonatomic, strong) UIColor *pageControlCurrentSelectColor;
+
+// 配置imageUrl之前必须配置cell 
+/** 总数量 */
+@property (nonatomic, assign) NSUInteger totalCount;
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 @property (nonatomic, copy) FMCustomScollViewClickItemAction itemSelectedAction;
 
@@ -33,6 +37,6 @@ typedef UICollectionViewCell *(^FMCellConfigureAction)(UICollectionView *collect
 + (instancetype)customScrollViewWithFrame:(CGRect)frame placeholder:(UIImage *)image disableTimer:(BOOL)disableTimer;
 + (instancetype)customScrollViewWithFrame:(CGRect)frame placeholder:(UIImage *)image;
 
-/** 配置结束，开始初始化并展示view */
+/** 此方法必须调用，否则不会展示任何事件 配置结束，开始展示view */
 - (void)finishConfigureView;
 @end

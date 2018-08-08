@@ -18,8 +18,6 @@
 @property (nonatomic, strong) UICollectionView *mainView;
 @property (nonatomic, strong) FMCustomAdFlowLayout * flowLayout;
 @property (nonatomic, strong) UIImage *placeholderImage;
-@property (nonatomic, strong) NSMutableArray *datas;
-
 
 @end
 
@@ -38,7 +36,7 @@
 
 - (void)initialization
 {
-    _datas = [[NSMutableArray alloc] init];
+   
 }
 
 - (void)finishConfigureView
@@ -91,7 +89,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.datas.count;
+    return self.totalCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -109,7 +107,7 @@
 {
 
     if (self.itemSelectedAction) {
-        if (1 == self.datas.count) {
+        if (1 == self.totalCount) {
             self.itemSelectedAction(0);
         }  else {
             self.itemSelectedAction(indexPath.row);
@@ -135,34 +133,6 @@
 
 
 #pragma mark - setter
-- (void)setImageURLs:(NSArray *)imageURLs
-{
-    _imageURLs = imageURLs;
-    if (_imageURLs.count)  {
-        [self.datas removeAllObjects];
-        [self.datas addObjectsFromArray:_imageURLs];
-    }
-    
-}
-
-- (void)setImageNames:(NSArray *)imageNames
-{
-    _imageNames = imageNames;
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (NSString *name in _imageNames)
-    {
-        UIImage *image = [UIImage imageNamed:name];
-        [images addObject:image];
-    }
-    
-    if (images.count)
-    {
-        [self.datas removeAllObjects];
-        [self.datas addObjectsFromArray:images];
-    }
-    
-}
-
 
 - (void)setItemSize:(CGSize)itemSize
 {
