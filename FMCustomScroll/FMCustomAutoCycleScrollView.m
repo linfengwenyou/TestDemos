@@ -41,7 +41,7 @@
     //计算圆点间距
     CGFloat marginX = 5 + 5;
     //计算整个pageControll的宽度
-    CGFloat newW = self.subviews.count * marginX+3;
+    CGFloat newW = self.subviews.count * marginX;
     //设置新frame
     self.bounds = CGRectMake(0, 0, newW, self.frame.size.height);
     
@@ -55,10 +55,10 @@
     {
         UIImageView* dot = [self.subviews objectAtIndex:i];
         if (i == self.currentPage) {
-            [dot setFrame:CGRectMake(i * marginX, dot.frame.origin.y, 13, 5)];
+            [dot setFrame:CGRectMake(i * marginX, dot.frame.origin.y, 5, 5)];
             dot.alpha = 1;
         } else if(i >self.currentPage) {
-            [dot setFrame:CGRectMake((i+0.5) * marginX+3, dot.frame.origin.y, 5, 5)];
+            [dot setFrame:CGRectMake(i * marginX, dot.frame.origin.y, 5, 5)];
             dot.alpha = 0.5;
         } else {
             [dot setFrame:CGRectMake(i * marginX, dot.frame.origin.y, 5, 5)];
@@ -109,6 +109,8 @@
     
     self.flowLayout.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
     self.mainView.frame = self.bounds;
+//    self.pageControl.center = CGPointMake(self.mainView.center.x, self.frame.size.height - 6);
+    
 }
 
 - (void)initialization
@@ -133,9 +135,18 @@
     
     [self addSubview:self.pageControl];
     
-    self.mainView.frame = self.bounds;
-    self.pageControl.center = CGPointMake(self.mainView.center.x, self.frame.size.height - 6);
-    self.pageControl.bounds = CGRectMake(0, 0, self.bounds.size.width, 12);
+//    self.mainView.frame = self.bounds;
+    [self.mainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mainView);
+        make.bottom.mas_equalTo(self.mainView).offset(-3);
+        make.width.mas_equalTo(self.mainView);
+        make.height.mas_equalTo(12);
+    }];
+//    self.pageControl.center = CGPointMake(self.mainView.center.x, self.frame.size.height - 6);
+//    self.pageControl.bounds = CGRectMake(0, 0, self.bounds.size.width, 12);
 
 }
 

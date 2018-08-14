@@ -18,5 +18,7 @@ typedef NS_ENUM(NSUInteger, FMCustomAdAnimationType) {
 @interface FMCustomAdFlowLayout : UICollectionViewFlowLayout
 /** 滚动放大，默认为NO */
 @property (nonatomic, assign) FMCustomAdAnimationType animationType;
+/** 偏移中心的尺寸，左为负，右为正 */
+@property (nonatomic, assign) CGFloat offsetX;
 @property (nonatomic) NSInteger visibleCount;
 @end

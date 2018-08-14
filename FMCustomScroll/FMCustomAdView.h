@@ -27,7 +27,8 @@ typedef UICollectionViewCell *(^FMCellConfigureAction)(UICollectionView *collect
 /** cell 尺寸 多个item间距*/
 @property (nonatomic, assign) CGSize itemSize;  // 默认为容器尺寸
 @property (nonatomic, assign) CGFloat itemLinePadding;
-
+// 动画，停止点，默认为0中心， 左为负，右为正
+@property (nonatomic, assign) CGFloat offsetCenterX;
 /** 总数量 */
 @property (nonatomic, assign) NSUInteger totalCount;
 /** 动画展示样式  */

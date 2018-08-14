@@ -149,6 +149,13 @@
     [self.flowLayout invalidateLayout];
 }
 
+- (void)setOffsetCenterX:(CGFloat)offsetCenterX
+{
+    _offsetCenterX = offsetCenterX;
+    self.flowLayout.offsetX = _offsetCenterX;
+    [self.flowLayout invalidateLayout];
+}
+
 - (void)setAnimationType:(FMCustomAdAnimationType)animationType
 {
     _animationType = animationType;
@@ -184,6 +191,12 @@
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     }
     return _flowLayout;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.mainView.frame = self.bounds;
 }
 
 @end

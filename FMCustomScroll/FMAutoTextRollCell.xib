@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FMAutoTextRollCell">
+            <rect key="frame" x="0.0" y="0.0" width="292" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="292" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqf-yx-run">
+                        <rect key="frame" x="45" y="18" width="28.5" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.52549019610000003" green="0.5568627451" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WWv-8k-mag">
+                        <rect key="frame" x="15" y="13" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="WWv-8k-mag" secondAttribute="height" multiplier="1:1" id="S57-Yh-3ta"/>
+                            <constraint firstAttribute="width" constant="25" id="gd6-0v-yDZ"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="gqf-yx-run" secondAttribute="trailing" priority="250" constant="15" id="UbA-LG-SNg"/>
+                <constraint firstItem="WWv-8k-mag" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="dmB-CQ-VTh"/>
+                <constraint firstItem="gqf-yx-run" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="eBs-sB-IJX"/>
+                <constraint firstItem="gqf-yx-run" firstAttribute="leading" secondItem="WWv-8k-mag" secondAttribute="trailing" constant="5" id="hb8-hT-yT3"/>
+                <constraint firstItem="WWv-8k-mag" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="kaO-b8-L6c"/>
+            </constraints>
+            <size key="customSize" width="292" height="50"/>
+            <connections>
+                <outlet property="avatar" destination="WWv-8k-mag" id="5QO-EX-0ed"/>
+                <outlet property="avatarLeading" destination="kaO-b8-L6c" id="vba-sY-K3s"/>
+                <outlet property="avatarWH" destination="gd6-0v-yDZ" id="FYA-i5-gL2"/>
+                <outlet property="name" destination="gqf-yx-run" id="Nbz-d4-wEp"/>
+                <outlet property="nameTrailing" destination="UbA-LG-SNg" id="Y5b-SN-tus"/>
+            </connections>
+            <point key="canvasLocation" x="-4" y="10"/>
+        </collectionViewCell>
+    </objects>
+</document>

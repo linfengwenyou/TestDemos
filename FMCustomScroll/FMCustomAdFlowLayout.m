@@ -32,7 +32,8 @@
     } else {
         _viewHeight = CGRectGetWidth(self.collectionView.frame);
         _itemHeight = self.itemSize.width;
-        self.collectionView.contentInset = UIEdgeInsetsMake(0, (_viewHeight - _itemHeight) / 2, 0, (_viewHeight - _itemHeight) / 2);
+        //UIEdgeInsetsMake(0, (_viewHeight - _itemHeight) / 2, 0, (_viewHeight - _itemHeight) / 2);
+        self.collectionView.contentInset = UIEdgeInsetsMake(0, (_viewHeight - _itemHeight) / 2 + self.offsetX , 0, (_viewHeight - _itemHeight) / 2 - self.offsetX);
     }
 }
 
@@ -66,7 +67,7 @@
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     attributes.size = self.itemSize;
     
-    CGFloat cY = (self.scrollDirection == UICollectionViewScrollDirectionVertical ? self.collectionView.contentOffset.y : self.collectionView.contentOffset.x) + _viewHeight / 2;
+    CGFloat cY = (self.scrollDirection == UICollectionViewScrollDirectionVertical ? self.collectionView.contentOffset.y : self.collectionView.contentOffset.x) + _viewHeight / 2 + self.offsetX;
     CGFloat attributesY = _itemHeight * indexPath.row + _itemHeight / 2;
     attributes.zIndex = -ABS(attributesY - cY);
     
@@ -102,11 +103,11 @@
 /** 默认停止在某个位置 */
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 {
-    CGFloat index = roundf(((self.scrollDirection == UICollectionViewScrollDirectionVertical ? proposedContentOffset.y : proposedContentOffset.x) + _viewHeight / 2 - _itemHeight / 2) / _itemHeight);
+    CGFloat index = roundf(((self.scrollDirection == UICollectionViewScrollDirectionVertical ? proposedContentOffset.y : proposedContentOffset.x) + _viewHeight / 2 - _itemHeight / 2 + self.offsetX) / _itemHeight);
     if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
         proposedContentOffset.y = _itemHeight * index + _itemHeight / 2 - _viewHeight / 2;
     } else {
-        proposedContentOffset.x = _itemHeight * index + _itemHeight / 2 - _viewHeight / 2;
+        proposedContentOffset.x = _itemHeight * index + _itemHeight / 2 - _viewHeight / 2 - self.offsetX;
     }
     return proposedContentOffset;
 }
