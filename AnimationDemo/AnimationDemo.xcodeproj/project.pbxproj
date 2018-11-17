@@ -16,27 +16,8 @@
 		B3E436B2218AF24F00670F25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E436B1218AF24F00670F25 /* Assets.xcassets */; };
 		B3E436B5218AF24F00670F25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3E436B3218AF24F00670F25 /* LaunchScreen.storyboard */; };
 		B3E436B8218AF24F00670F25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E436B7218AF24F00670F25 /* main.m */; };
-		B3E436C2218AF24F00670F25 /* AnimationDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E436C1218AF24F00670F25 /* AnimationDemoTests.m */; };
-		B3E436CD218AF24F00670F25 /* AnimationDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E436CC218AF24F00670F25 /* AnimationDemoUITests.m */; };
 		B3FB0090219EB46B00A75D36 /* AudioView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3FB008F219EB46B00A75D36 /* AudioView.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B3E436BE218AF24F00670F25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B3E4369D218AF24C00670F25 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B3E436A4218AF24C00670F25;
-			remoteInfo = AnimationDemo;
-		};
-		B3E436C9218AF24F00670F25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B3E4369D218AF24C00670F25 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B3E436A4218AF24C00670F25;
-			remoteInfo = AnimationDemo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B3101810219FE53700FABB3C /* DemoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoCell.h; sourceTree = "<group>"; };
@@ -54,12 +35,6 @@
 		B3E436B4218AF24F00670F25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3E436B6218AF24F00670F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3E436B7218AF24F00670F25 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B3E436BD218AF24F00670F25 /* AnimationDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimationDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E436C1218AF24F00670F25 /* AnimationDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnimationDemoTests.m; sourceTree = "<group>"; };
-		B3E436C3218AF24F00670F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B3E436C8218AF24F00670F25 /* AnimationDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimationDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E436CC218AF24F00670F25 /* AnimationDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnimationDemoUITests.m; sourceTree = "<group>"; };
-		B3E436CE218AF24F00670F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3E436DD218AF33E00670F25 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		B3FB008E219EB46B00A75D36 /* AudioView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioView.h; sourceTree = "<group>"; };
 		B3FB008F219EB46B00A75D36 /* AudioView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioView.m; sourceTree = "<group>"; };
@@ -73,20 +48,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3E436BA218AF24F00670F25 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B3E436C5218AF24F00670F25 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -94,8 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				B3E436A7218AF24C00670F25 /* AnimationDemo */,
-				B3E436C0218AF24F00670F25 /* AnimationDemoTests */,
-				B3E436CB218AF24F00670F25 /* AnimationDemoUITests */,
 				B3E436A6218AF24C00670F25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,8 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				B3E436A5218AF24C00670F25 /* AnimationDemo.app */,
-				B3E436BD218AF24F00670F25 /* AnimationDemoTests.xctest */,
-				B3E436C8218AF24F00670F25 /* AnimationDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,24 +91,6 @@
 			path = AnimationDemo;
 			sourceTree = "<group>";
 		};
-		B3E436C0218AF24F00670F25 /* AnimationDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				B3E436C1218AF24F00670F25 /* AnimationDemoTests.m */,
-				B3E436C3218AF24F00670F25 /* Info.plist */,
-			);
-			path = AnimationDemoTests;
-			sourceTree = "<group>";
-		};
-		B3E436CB218AF24F00670F25 /* AnimationDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B3E436CC218AF24F00670F25 /* AnimationDemoUITests.m */,
-				B3E436CE218AF24F00670F25 /* Info.plist */,
-			);
-			path = AnimationDemoUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,42 +111,6 @@
 			productReference = B3E436A5218AF24C00670F25 /* AnimationDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B3E436BC218AF24F00670F25 /* AnimationDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B3E436D4218AF24F00670F25 /* Build configuration list for PBXNativeTarget "AnimationDemoTests" */;
-			buildPhases = (
-				B3E436B9218AF24F00670F25 /* Sources */,
-				B3E436BA218AF24F00670F25 /* Frameworks */,
-				B3E436BB218AF24F00670F25 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B3E436BF218AF24F00670F25 /* PBXTargetDependency */,
-			);
-			name = AnimationDemoTests;
-			productName = AnimationDemoTests;
-			productReference = B3E436BD218AF24F00670F25 /* AnimationDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		B3E436C7218AF24F00670F25 /* AnimationDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B3E436D7218AF24F00670F25 /* Build configuration list for PBXNativeTarget "AnimationDemoUITests" */;
-			buildPhases = (
-				B3E436C4218AF24F00670F25 /* Sources */,
-				B3E436C5218AF24F00670F25 /* Frameworks */,
-				B3E436C6218AF24F00670F25 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B3E436CA218AF24F00670F25 /* PBXTargetDependency */,
-			);
-			name = AnimationDemoUITests;
-			productName = AnimationDemoUITests;
-			productReference = B3E436C8218AF24F00670F25 /* AnimationDemoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -219,14 +122,6 @@
 				TargetAttributes = {
 					B3E436A4218AF24C00670F25 = {
 						CreatedOnToolsVersion = 10.1;
-					};
-					B3E436BC218AF24F00670F25 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = B3E436A4218AF24C00670F25;
-					};
-					B3E436C7218AF24F00670F25 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = B3E436A4218AF24C00670F25;
 					};
 				};
 			};
@@ -244,8 +139,6 @@
 			projectRoot = "";
 			targets = (
 				B3E436A4218AF24C00670F25 /* AnimationDemo */,
-				B3E436BC218AF24F00670F25 /* AnimationDemoTests */,
-				B3E436C7218AF24F00670F25 /* AnimationDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -259,20 +152,6 @@
 				B3E436B2218AF24F00670F25 /* Assets.xcassets in Resources */,
 				B3101814219FE53700FABB3C /* DemoCell.xib in Resources */,
 				B3E436B0218AF24C00670F25 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B3E436BB218AF24F00670F25 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B3E436C6218AF24F00670F25 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,36 +171,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3E436B9218AF24F00670F25 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B3E436C2218AF24F00670F25 /* AnimationDemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B3E436C4218AF24F00670F25 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B3E436CD218AF24F00670F25 /* AnimationDemoUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B3E436BF218AF24F00670F25 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B3E436A4218AF24C00670F25 /* AnimationDemo */;
-			targetProxy = B3E436BE218AF24F00670F25 /* PBXContainerItemProxy */;
-		};
-		B3E436CA218AF24F00670F25 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B3E436A4218AF24C00670F25 /* AnimationDemo */;
-			targetProxy = B3E436C9218AF24F00670F25 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B3E436AE218AF24C00670F25 /* Main.storyboard */ = {
@@ -487,76 +337,6 @@
 			};
 			name = Release;
 		};
-		B3E436D5218AF24F00670F25 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = AnimationDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.song.AnimationDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnimationDemo.app/AnimationDemo";
-			};
-			name = Debug;
-		};
-		B3E436D6218AF24F00670F25 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = AnimationDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.song.AnimationDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnimationDemo.app/AnimationDemo";
-			};
-			name = Release;
-		};
-		B3E436D8218AF24F00670F25 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = AnimationDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.song.AnimationDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = AnimationDemo;
-			};
-			name = Debug;
-		};
-		B3E436D9218AF24F00670F25 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = AnimationDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.song.AnimationDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = AnimationDemo;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -574,24 +354,6 @@
 			buildConfigurations = (
 				B3E436D2218AF24F00670F25 /* Debug */,
 				B3E436D3218AF24F00670F25 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B3E436D4218AF24F00670F25 /* Build configuration list for PBXNativeTarget "AnimationDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B3E436D5218AF24F00670F25 /* Debug */,
-				B3E436D6218AF24F00670F25 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B3E436D7218AF24F00670F25 /* Build configuration list for PBXNativeTarget "AnimationDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B3E436D8218AF24F00670F25 /* Debug */,
-				B3E436D9218AF24F00670F25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
