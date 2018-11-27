@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpUI];
-    
+//    [self setUpUI];
+    [self testAudioView];
     [self.tableview registerNib:[UINib nibWithNibName:@"DemoCell" bundle:nil] forCellReuseIdentifier:@"DemoCell"];
     
 }

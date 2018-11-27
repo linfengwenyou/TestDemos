@@ -25,7 +25,7 @@
 - (void)testAudioView
 {
     AudioView *audioView = [[AudioView alloc] initWithFrame:CGRectMake(0, 20, 20, 20) audioLineCount:3 color:[UIColor whiteColor] lineOffset:2];
-    audioView.backgroundColor = [UIColor purpleColor];
+    audioView.backgroundColor = [UIColor redColor];
     [self.audioView addSubview:audioView];
 }
 
