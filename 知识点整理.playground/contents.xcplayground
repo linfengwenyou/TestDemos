@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='macos' display-mode='rendered' executeOnSourceChanges='false'>
+    <pages>
+        <page name='任务'/>
+        <page name='preView'/>
+        <page name='可选类型解包'/>
+        <page name='异常'/>
+        <page name='类型转换'/>
+        <page name='懒加载'/>
+        <page name='枚举'/>
+        <page name='泛型'/>
+        <page name='初始化'/>
+        <page name='闭包'/>
+        <page name='反射'/>
+        <page name='拓展[协议]'/>
+        <page name='Test'/>
+        <page name='构建过程'/>
+        <page name='单元测试'/>
+        <page name='Map&amp;FlatMap'/>
+        <page name='数组操作'/>
+        <page name='keyPath'/>
+        <page name='正则表达式'/>
+    </pages>
+</playground>

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='rendered' executeOnSourceChanges='false'>
+<playground version='6.0' target-platform='macos' display-mode='rendered'>
     <pages>
-        <page name='多图片上传'/>
+        <page name='任务列表'/>
         <page name='指针函数怎么使用'/>
         <page name='函数指针怎么使用'/>
-        <page name='能效开发'/>
+        <page name='App优化'/>
+        <page name='正则表达式使用'/>
+        <page name='图文混排'/>
+        <page name='编码'/>
+        <page name='APP进入后台执行计时器'/>
+        <page name='判断App是否被抓包'/>
+        <page name='C语言补漏'/>
+        <page name='swift 字典打印内部内容'/>
+        <page name='JSON结构'/>
+        <page name='类和元类'/>
+        <page name='写一个工具记录redMneBug并做提醒'/>
     </pages>
 </playground>
