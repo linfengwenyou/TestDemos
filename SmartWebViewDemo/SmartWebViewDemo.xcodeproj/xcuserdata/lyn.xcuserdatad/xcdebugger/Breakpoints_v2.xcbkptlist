@@ -14,68 +14,10 @@
             filePath = "SmartWebViewDemo/LBKWebView/LBKWebView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "respondToJS(webView:callId:result:)"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "evaluateJS(_:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "482EC223-839B-45BC-8F8E-60A7C03E3272 - 367de0cc65c72e76"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SmartWebViewDemo.SmartWebView.evaluateJS(_: Swift.String, completion: Swift.Optional&lt;(Swift.Result&lt;Swift.Optional&lt;Any&gt;, Swift.Error&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "SmartWebViewDemo.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lyn/Temporary/TestDemos/SmartWebViewDemo/SmartWebViewDemo/LBKWebView/LBKWebView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125">
-               </Location>
-               <Location
-                  uuid = "482EC223-839B-45BC-8F8E-60A7C03E3272 - a93bba5e236dbd0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor @Sendable (Swift.Optional&lt;Any&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in SmartWebViewDemo.SmartWebView.evaluateJS(_: Swift.String, completion: Swift.Optional&lt;(Swift.Result&lt;Swift.Optional&lt;Any&gt;, Swift.Error&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "SmartWebViewDemo.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lyn/Temporary/TestDemos/SmartWebViewDemo/SmartWebViewDemo/LBKWebView/LBKWebView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125">
-               </Location>
-               <Location
-                  uuid = "482EC223-839B-45BC-8F8E-60A7C03E3272 - 367de0cc65c72eb8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SmartWebViewDemo.SmartWebView.evaluateJS(_: Swift.String, completion: Swift.Optional&lt;(Swift.Result&lt;Swift.Optional&lt;Any&gt;, Swift.Error&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "SmartWebViewDemo.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lyn/Temporary/TestDemos/SmartWebViewDemo/SmartWebViewDemo/LBKWebView/LBKWebView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123">
-               </Location>
-               <Location
-                  uuid = "482EC223-839B-45BC-8F8E-60A7C03E3272 - a93bba5e236db1e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor @Sendable (Swift.Optional&lt;Any&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in SmartWebViewDemo.SmartWebView.evaluateJS(_: Swift.String, completion: Swift.Optional&lt;(Swift.Result&lt;Swift.Optional&lt;Any&gt;, Swift.Error&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "SmartWebViewDemo.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lyn/Temporary/TestDemos/SmartWebViewDemo/SmartWebViewDemo/LBKWebView/LBKWebView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -88,8 +30,8 @@
             filePath = "SmartWebViewDemo/LBKWebView/LBKWebView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "respondToJS(webView:callId:result:)"
             landmarkType = "7">
          </BreakpointContent>

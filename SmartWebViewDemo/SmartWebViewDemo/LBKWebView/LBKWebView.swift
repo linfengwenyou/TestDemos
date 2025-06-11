@@ -77,11 +77,13 @@ class SmartWebView: UIView, SmartWebViewJSHandler {
 // MARK: - JS -> Native
 extension SmartWebView {
     func handleJSCall(_ message: WKScriptMessage, webView: WKWebView) {
-        guard let body = message.body as? [String: Any],
+        guard let bodyString = message.body as? String,
+              let body = bodyString.jsonObject() as? [String: Any],
               let cmd = body["cmd"] as? String else {
             handleUnknownJSCall(message, webView: webView)
             return
         }
+        
         let params = body["params"]
         let clientcallid = body["clientcallid"] as! String
         print("✅ JS 调用原生方法：\(cmd), 参数: \(String(describing: params)), 调用ID: \(String(describing: clientcallid))")
@@ -92,19 +94,25 @@ extension SmartWebView {
                 "success": true,
                 "data": ["userId": "123456", "token": "abcdefg"]
             ] as [String : Any]
-            respondToJS(webView: webView, callId: clientcallid, result: result)
+            respondToJS(webView: webView, callId: clientcallid ?? "", result: result)
             
         default:
-            print("⚠️ 未知指令：\(cmd)")
+            print("未知指令：\(cmd)")
             handleUnknownJSCall(message, webView: webView)
         }
     }
     
     func handleUnknownJSCall(_ message: WKScriptMessage, webView: WKWebView) {
-        print("⚠️ 未知的 JS 调用，未处理：\(message.body)")
+        print("未知的 JS 调用，未处理：\(message.body)")
         let js = "window._nativeCallback && window._nativeCallback({ success: false, error: 'native method not found' });"
         webView.evaluateJavaScript(js, completionHandler: nil)
     }
+    
+    
+    // 新增各种处理方法，回调也需要补充，然后看消息队列需要怎么实现
+    
+    
+    
 }
 
 
