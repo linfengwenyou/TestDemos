@@ -23,6 +23,28 @@ window.LBKJsBridge = {
 }()
 """
 
+enum LBKListeCallType: String {
+    /// 获取用户信息
+    case getUserInfo = "getauthinfo"
+    /// 拉起登录页
+    case requireLogin = "requireauth"
+    /// 打开新的H5
+    case openNewWeb = "openNewPage"
+    /// 跳转原生页面
+    case toNativePage = "jumpNativeUiView"
+    /// 设置导航条
+    case setupNavigationBar = "setNavigationbar"
+    /// 回退上一页
+    case toPrevious = "goBackToPage"
+    /// 拦截弹框
+    case showAlert = "setBreakbackInfos"
+    /// 关闭弹框---> 这个是否有必要
+    case hideAlert = "clearBreakBackInfos"
+    
+}
+
+
+
 class SmartWebView: UIView, SmartWebViewJSHandler {
     private(set) var webView: WKWebView
     private let bridge = JSBridge()
@@ -85,16 +107,32 @@ extension SmartWebView {
         }
         
         let params = body["params"]
-        let clientcallid = body["clientcallid"] as! String
-        print("✅ JS 调用原生方法：\(cmd), 参数: \(String(describing: params)), 调用ID: \(String(describing: clientcallid))")
+        let clientcallid = body["clientcallid"] as? String
+//        print("JS 调用原生方法：\(cmd), 参数: \(String(describing: params)), 调用ID: \(String(describing: clientcallid))")
         // TODO: Add specific action handlers here
-        switch cmd {
-        case "getAuthInfo":
+        switch LBKListeCallType(rawValue: cmd) {
+        case .getUserInfo:
             let result = [
                 "success": true,
                 "data": ["userId": "123456", "token": "abcdefg"]
             ] as [String : Any]
             respondToJS(webView: webView, callId: clientcallid ?? "", result: result)
+            print(cmd)
+            
+        case .requireLogin:
+            print(cmd)
+        case .openNewWeb:
+            print(cmd)
+        case .toNativePage:
+            print(cmd)
+        case .setupNavigationBar:
+            print(cmd)
+        case .toPrevious:
+            print(cmd)
+        case .showAlert:
+            print(cmd)
+        case .hideAlert:
+            print(cmd)
             
         default:
             print("未知指令：\(cmd)")
@@ -110,7 +148,6 @@ extension SmartWebView {
     
     
     // 新增各种处理方法，回调也需要补充，然后看消息队列需要怎么实现
-    
     
     
 }
