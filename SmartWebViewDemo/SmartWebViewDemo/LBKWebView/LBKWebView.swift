@@ -65,7 +65,7 @@ class SmartWebView: UIView, SmartWebViewJSHandler,WKNavigationDelegate {
     private let bridge = JSBridge()
     
     init(userAgent: String? = nil) {
-        self.webView = SmartWebView.createConfiguredWebView(bridge: bridge, injectedJS: injectJSString)
+        self.webView = SmartWebView.createConfiguredWebView(userAgent: userAgent, bridge: bridge, injectedJS: injectJSString)
         super.init(frame: .zero)
         
         self.webView.navigationDelegate = self
@@ -123,16 +123,29 @@ extension SmartWebView {
         config.userContentController = contentController
         
         if let ua = userAgent {
-            config.applicationNameForUserAgent = ua
+            let defaultUa = userAgentString() + "," + ua
+            config.applicationNameForUserAgent = defaultUa
         }
         
         return WebViewPool.shared.dequeueWebView(configuration: config)
     }
+    
+    static func userAgentString() -> String {
+        /*
+         识别 Lbank 标识：LBank
+         识别 Lbank 版本：LbankVersion/1.x.x
+         识别 Lbank Theme: LbankTheme/light
+         */
+//        NSString *customUserAgent = [NSString stringWithFormat:@"_LBANK_LBANK/iOS/%@_%@/%@/%@/2_LBANK_", [LBVersionTool getCurrentVersion], [LBVersionTool getCurrentBuildNum], [NSString getCurrentDeviceModel], [[UIDevice currentDevice] systemVersion]];
+//        configuration.applicationNameForUserAgent = customUserAgent;
+        return "iOS"
+    }
+    
 }
 
 // MARK: - WKNavigationDelegate
 extension SmartWebView {
-    // 页面开始加载
+    // 页面开始加载---> 这个线不用
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
         fireEvent(.beforeCreate)
         decisionHandler(.allow)
@@ -164,18 +177,18 @@ extension SmartWebView {
         switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
             
-            let successModel = LBKSendMessageMode(code: 200, cmd: cmd, clientcallid: clientcallid, message: "sucess get userInfo",  data:[:])
-            callJSBridge(status: .done, result: successModel.toDictionary())
-            let failedModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid,message: "sucess get userInfo", data:[:])
-            callJSBridge(status: .failed, result: failedModel.toDictionary())
+            let data = ["test":222,"success":true].toJsonString()
+            // 这个data是实际要展示的数据，要方便外部传入，至于，其他的可以外部要求
+            #warning("这个要整理下，把data作为外部传入的方式才行")
             
-            let cancelModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid, message: nil, data: [:])
+//            let successModel = LBKSendMessageMode(code: 200, cmd: cmd, clientcallid: clientcallid, message: "sucess get userInfo",  data:data)
+//            callJSBridge(status: .done, result: successModel.toDictionary())
+//            let failedModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid,message: "sucess get userInfo", data:data)
+//            callJSBridge(status: .failed, result: failedModel.toDictionary())
+            
+            let cancelModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid, message: nil, data: data)
             callJSBridge(status: .canceled, result: cancelModel.toDictionary())
-//            let result = [
-//                "success": true,
-//                "data": ["userId": "123456", "token": "abcdefg"]
-//            ] as [String : Any]
-//            respondToJS(webView: webView, callId: clientcallid ?? "", result: result)
+
             print(cmd)
             
         case .requireLogin:
@@ -208,31 +221,22 @@ extension SmartWebView {
     
     // 新增各种处理方法，回调也需要补充，然后看消息队列需要怎么实现
     
-    
 }
 
 
 // MARK: - Native -> JS
 extension SmartWebView {
     
-//    func respondToJS(webView: WKWebView, callId: String, result: [String: Any]) {
-//        guard let jsonData = try? JSONSerialization.data(withJSONObject: result),
-//              let jsonString = String(data: jsonData, encoding: .utf8) else { return }
-//        
-//        let js = "window._nativeCallback && window._nativeCallback({ clientcallid: '\(callId)', result: \(jsonString) });"
-//        webView.evaluateJavaScript(js, completionHandler: nil)
-//    }
-    
-    
     func callJSBridge(status: LBKNativeCallType,
                       result:[String: Any],
                       completion:((Result<Any?, Error>) -> Void)? = nil) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: []),
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
+              let jsonString = String(data: jsonData, encoding: .utf8)?.urlEncode() else {
             print("无法序列化 result")
             return
         }
-        let jsCode = "LBKJsBridge.\(status.rawValue)(\(jsonString));"
+        
+        let jsCode = "LBKJsBridge.\(status.rawValue)('\(jsonString)');"
         print(jsCode)
         evaluateJS(jsCode, completion: completion)
     }

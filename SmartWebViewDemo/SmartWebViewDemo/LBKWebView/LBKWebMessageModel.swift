@@ -13,7 +13,7 @@ struct LBKSendMessageMode {
     let cmd: String
     let clientcallid: String?
     let message: String?
-    var data: [String:Any]
+    var data: String?
 
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
@@ -42,7 +42,13 @@ struct LBKSendMessageMode {
             dict["clientcallid"] = clientcallid
         }
         
-        if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) {
+        return dict.toJsonString()
+    }
+}
+
+extension Dictionary {
+    func toJsonString() -> String? {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: self, options: .prettyPrinted) {
             return String(data: jsonData, encoding: .utf8)
         } else {
             return nil
@@ -50,11 +56,26 @@ struct LBKSendMessageMode {
     }
 }
 
+
 extension String {
     
     // 转换为JSON对象，比如字典
     func jsonObject() -> Any? {
         guard let data = self.data(using: .utf8) else {return nil}
         return try? JSONSerialization.jsonObject(with: data, options: [])
+    }
+    
+    
+    func urlEncode() -> String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
+    
+    
+    func jsString() -> String {
+        return self
+            .replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+            .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\r", with: "\\r")
     }
 }
