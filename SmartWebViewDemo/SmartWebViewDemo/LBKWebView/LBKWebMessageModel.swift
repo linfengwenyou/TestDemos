@@ -10,20 +10,22 @@ import Foundation
 // native->JS使用的模型
 struct LBKSendMessageMode {
     let code: Int
-    let message: String
     let cmd: String
     let clientcallid: String?
+    let message: String?
     var data: [String:Any]
 
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "code": code,
-            "message": message,
             "cmd": cmd,
             "data": data
         ]
         if let clientcallid = clientcallid {
             dict["clientcallid"] = clientcallid
+        }
+        if let message = message {
+            dict["message"] = message
         }
         
         return dict

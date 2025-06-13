@@ -164,8 +164,13 @@ extension SmartWebView {
         switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
             
-            let model = LBKSendMessageMode(code: 200, message: "sucess get userInfo", cmd: cmd, clientcallid: clientcallid, data:[:])
-            callJSBridge(status: .done, result: model.toDictionary())
+            let successModel = LBKSendMessageMode(code: 200, cmd: cmd, clientcallid: clientcallid, message: "sucess get userInfo",  data:[:])
+            callJSBridge(status: .done, result: successModel.toDictionary())
+            let failedModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid,message: "sucess get userInfo", data:[:])
+            callJSBridge(status: .failed, result: failedModel.toDictionary())
+            
+            let cancelModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid, message: nil, data: [:])
+            callJSBridge(status: .canceled, result: cancelModel.toDictionary())
 //            let result = [
 //                "success": true,
 //                "data": ["userId": "123456", "token": "abcdefg"]
@@ -228,6 +233,7 @@ extension SmartWebView {
             return
         }
         let jsCode = "LBKJsBridge.\(status.rawValue)(\(jsonString));"
+        print(jsCode)
         evaluateJS(jsCode, completion: completion)
     }
     
