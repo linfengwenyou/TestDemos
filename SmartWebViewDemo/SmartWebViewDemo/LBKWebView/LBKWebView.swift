@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 import SnapKit
 
-let EASY_JS_INJECT_STRING = """
+let injectJSString = """
 !function () {
 if (window.LBKJsBridge) {
     return;
@@ -23,7 +23,8 @@ window.LBKJsBridge = {
 }()
 """
 
-enum LBKListeCallType: String {
+// JS调用Native
+enum LBKJSCallType: String {
     /// 获取用户信息
     case getUserInfo = "getauthinfo"
     /// 拉起登录页
@@ -44,30 +45,30 @@ enum LBKListeCallType: String {
 }
 
 
+// Native调用JS
+enum LBKNativeCallType: String {
+    case done = "onClientCallDone"
+    case failed = "onClientCallFailed"
+    case canceled = "onClientCallCancelled"
+}
 
-class SmartWebView: UIView, SmartWebViewJSHandler {
+
+// 页面加载生命周期控制
+enum LBKWebLifeCycle: String {
+    case beforeCreate
+    case mounted
+    case destroyed
+}
+
+class SmartWebView: UIView, SmartWebViewJSHandler,WKNavigationDelegate {
     private(set) var webView: WKWebView
     private let bridge = JSBridge()
     
     init(userAgent: String? = nil) {
-        let config = WKWebViewConfiguration()
-        let contentController = WKUserContentController()
-        contentController.add(bridge, name: "NativeListener")
-        
-        let userScript = WKUserScript(
-            source: EASY_JS_INJECT_STRING,
-            injectionTime: .atDocumentStart,
-            forMainFrameOnly: false
-        )
-        
-       contentController.addUserScript(userScript)
-
-        config.userContentController = contentController
-        if let ua = userAgent {
-            config.applicationNameForUserAgent = ua
-        }
-        self.webView = WebViewPool.shared.dequeueWebView(configuration: config)
+        self.webView = SmartWebView.createConfiguredWebView(bridge: bridge, injectedJS: injectJSString)
         super.init(frame: .zero)
+        
+        self.webView.navigationDelegate = self
         
         bridge.delegate = self
         addSubview(webView)
@@ -94,7 +95,55 @@ class SmartWebView: UIView, SmartWebViewJSHandler {
     func recycle() {
         WebViewPool.shared.enqueue(webView)
     }
+    
+    /// 页面销毁
+    deinit {
+        fireEvent(.destroyed)
+    }
 }
+
+// MARK: - Factory
+extension SmartWebView {
+    // 配置信息
+    static func createConfiguredWebView(userAgent: String? = nil, bridge: WKScriptMessageHandler, injectedJS: String) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        let contentController = WKUserContentController()
+        
+        contentController.add(bridge, name: "NativeListener")
+        
+        let userScript = WKUserScript(
+            source: injectedJS,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: false
+        )
+        contentController.addUserScript(userScript)
+        
+        config.userContentController = contentController
+        
+        if let ua = userAgent {
+            config.applicationNameForUserAgent = ua
+        }
+        
+        return WebViewPool.shared.dequeueWebView(configuration: config)
+    }
+}
+
+// MARK: - WKNavigationDelegate
+extension SmartWebView {
+    // 页面开始加载
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
+        fireEvent(.beforeCreate)
+        decisionHandler(.allow)
+    }
+    
+    // 加载完成
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        fireEvent(.mounted)
+    }
+
+}
+
+
 
 // MARK: - JS -> Native
 extension SmartWebView {
@@ -110,13 +159,13 @@ extension SmartWebView {
         let clientcallid = body["clientcallid"] as? String
 //        print("JS 调用原生方法：\(cmd), 参数: \(String(describing: params)), 调用ID: \(String(describing: clientcallid))")
         // TODO: Add specific action handlers here
-        switch LBKListeCallType(rawValue: cmd) {
+        switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
-            let result = [
-                "success": true,
-                "data": ["userId": "123456", "token": "abcdefg"]
-            ] as [String : Any]
-            respondToJS(webView: webView, callId: clientcallid ?? "", result: result)
+//            let result = [
+//                "success": true,
+//                "data": ["userId": "123456", "token": "abcdefg"]
+//            ] as [String : Any]
+//            respondToJS(webView: webView, callId: clientcallid ?? "", result: result)
             print(cmd)
             
         case .requireLogin:
@@ -156,13 +205,32 @@ extension SmartWebView {
 // MARK: - Native -> JS
 extension SmartWebView {
     
-    func respondToJS(webView: WKWebView, callId: String, result: [String: Any]) {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: result),
-              let jsonString = String(data: jsonData, encoding: .utf8) else { return }
-        
-        let js = "window._nativeCallback && window._nativeCallback({ clientcallid: '\(callId)', result: \(jsonString) });"
-        webView.evaluateJavaScript(js, completionHandler: nil)
+//    func respondToJS(webView: WKWebView, callId: String, result: [String: Any]) {
+//        guard let jsonData = try? JSONSerialization.data(withJSONObject: result),
+//              let jsonString = String(data: jsonData, encoding: .utf8) else { return }
+//        
+//        let js = "window._nativeCallback && window._nativeCallback({ clientcallid: '\(callId)', result: \(jsonString) });"
+//        webView.evaluateJavaScript(js, completionHandler: nil)
+//    }
+    
+    
+    func callJSBridge(status: LBKNativeCallType,
+                      result:[String: Any],
+                      completion:((Result<Any?, Error>) -> Void)? = nil) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            print("无法序列化 result")
+            return
+        }
+        let jsCode = "LBKJsBridge.\(status.rawValue)(\(jsonString));"
+        evaluateJS(jsCode, completion: completion)
     }
+    
+    func fireEvent(_ event: LBKWebLifeCycle, completion: ((Result<Any?, Error>) -> Void)? = nil) {
+        let jsCode = "LBKJsBridge.fireEvent('\(event.rawValue)');"
+        evaluateJS(jsCode, completion: completion)
+    }
+    
     
     func evaluateJS(_ script: String, completion: ((Result<Any?, Error>) -> Void)? = nil) {
         webView.evaluateJavaScript(script) { result, error in
