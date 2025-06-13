@@ -69,7 +69,8 @@ class SmartWebView: UIView, SmartWebViewJSHandler,WKNavigationDelegate {
         super.init(frame: .zero)
         
         self.webView.navigationDelegate = self
-        
+        #warning("上线前需要移除")
+        self.webView.isInspectable = true;  // 支持是否可以调试
         bridge.delegate = self
         addSubview(webView)
         webView.snp.makeConstraints { make in
@@ -161,6 +162,9 @@ extension SmartWebView {
         // TODO: Add specific action handlers here
         switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
+            
+            
+            
 //            let result = [
 //                "success": true,
 //                "data": ["userId": "123456", "token": "abcdefg"]
