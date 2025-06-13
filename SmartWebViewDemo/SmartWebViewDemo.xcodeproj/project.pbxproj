@@ -303,7 +303,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nxcrun simctl shutdown all\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#xcrun simctl shutdown all\n";
 		};
 		53823EB1CB26C55F82FAE528 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

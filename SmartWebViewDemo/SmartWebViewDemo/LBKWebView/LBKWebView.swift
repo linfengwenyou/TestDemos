@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import WebKit
-import SnapKit
+//import SnapKit
 
 let injectJSString = """
 !function () {
@@ -73,9 +73,10 @@ class SmartWebView: UIView, SmartWebViewJSHandler,WKNavigationDelegate {
         self.webView.isInspectable = true;  // 支持是否可以调试
         bridge.delegate = self
         addSubview(webView)
-        webView.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
+        webView.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height-100)
+//        webView.snp.makeConstraints { make in
+//            make.edges.equalTo(self)
+//        }
        
     }
     

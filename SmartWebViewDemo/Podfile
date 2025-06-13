@@ -6,7 +6,7 @@ target 'SmartWebViewDemo' do
   use_frameworks!
 
   # Pods for SmartWebViewDemo
-  pod 'SnapKit', '~> 5.7.0'
+#  pod 'SnapKit', '~> 5.7.0'
   pod 'LookinServer', :configurations => ['Debug']
 
   target 'SmartWebViewDemoTests' do

@@ -37,12 +37,12 @@ class LBKWebController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(smartWebView)
-        
-        smartWebView.snp.makeConstraints {make in
-            make.leading.trailing.equalTo(0)
-            make.top.equalTo(self.view.safeAreaInsets.top).offset(44)
-            make.bottom.equalTo(-self.view.safeAreaInsets.bottom)
-        }
+        smartWebView.frame = UIScreen.main.bounds
+//        smartWebView.snp.makeConstraints {make in
+//            make.leading.trailing.equalTo(0)
+//            make.top.equalTo(self.view.safeAreaInsets.top).offset(44)
+//            make.bottom.equalTo(-self.view.safeAreaInsets.bottom)
+//        }
        
         
         if let url = urlToLoad {
