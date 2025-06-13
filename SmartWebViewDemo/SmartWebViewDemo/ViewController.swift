@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -16,12 +16,26 @@ class ViewController: UIViewController {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        self .testForUrl()
+        //            testForHtml()
+    }
+    
+    // 传入URL
+    func testForUrl() {
         let vc = LBKWebController(url: URL(string: "https://m.lbk.world/zh-TC/js-bridge")!)
         navigationController?.pushViewController(vc, animated: true)
-        
-        // 或加载 HTML
-//        let vc = LBKWebController(html: "<html><body>Hello World</body></html>")
-//        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // 传入html
+    func testForHtml() {
+        if let filePath = Bundle.main.path(forResource: "index", ofType: "html"),
+           let html = try? String(contentsOfFile: filePath, encoding: .utf8) {
+            
+            let baseUrl = URL(string: filePath)?.deletingLastPathComponent()
+            
+            let vc = LBKWebController(html: html,baseURL: baseUrl)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

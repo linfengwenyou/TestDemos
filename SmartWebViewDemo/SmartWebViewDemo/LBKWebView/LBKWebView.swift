@@ -163,8 +163,8 @@ extension SmartWebView {
         switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
             
-            
-            
+            let model = LBKSendMessageMode(code: 200, message: "sucess get userInfo", cmd: cmd, clientcallid: clientcallid, data:[:])
+            callJSBridge(status: .done, result: model.toDictionary())
 //            let result = [
 //                "success": true,
 //                "data": ["userId": "123456", "token": "abcdefg"]

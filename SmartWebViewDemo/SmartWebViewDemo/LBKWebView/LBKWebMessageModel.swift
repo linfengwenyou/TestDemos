@@ -8,42 +8,49 @@
 import Foundation
 
 // native->JS使用的模型
-struct LBKSendMessageMode: Codable {
+struct LBKSendMessageMode {
     let code: Int
     let message: String
     let cmd: String
     let clientcallid: String?
-    let data: String?
-    
-    // 参数比较少，直接转换，效率高
-    func toDict() -> [String: Any] {
+    var data: [String:Any]
+
+    func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "code": code,
             "message": message,
             "cmd": cmd,
-            "clientcallid": clientcallid
+            "data": data
         ]
-        if let data = data {
-            dict["data"] = data
+        if let clientcallid = clientcallid {
+            dict["clientcallid"] = clientcallid
         }
+        
         return dict
     }
     
+    func toJSONString() -> String? {
+        var dict: [String: Any] = [
+            "code": code,
+            "message": message,
+            "cmd": cmd,
+            "data": data
+        ]
+        if let clientcallid = clientcallid {
+            dict["clientcallid"] = clientcallid
+        }
+        
+        if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) {
+            return String(data: jsonData, encoding: .utf8)
+        } else {
+            return nil
+        }
+    }
 }
-
-
 
 extension String {
     
-    func messageModel() -> LBKSendMessageMode? {
-        guard let jsonData = self.data(using: .utf8) else {return nil}
-        guard let result = try? JSONDecoder().decode(LBKSendMessageMode.self, from: jsonData)  else {
-            return nil
-        }
-        return result
-    }
-    
-    // 转换为JSON对象
+    // 转换为JSON对象，比如字典
     func jsonObject() -> Any? {
         guard let data = self.data(using: .utf8) else {return nil}
         return try? JSONSerialization.jsonObject(with: data, options: [])
