@@ -7,7 +7,7 @@ tmp
 *.mode1v3
 *.pbxuser
 *.xcworkspace
-xcuserdata
+*.xcuserdata
 console.log
 build/
 build
