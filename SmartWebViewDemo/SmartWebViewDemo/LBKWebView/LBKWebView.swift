@@ -29,19 +29,34 @@ enum LBKJSCallType: String {
     case getUserInfo = "getauthinfo"
     /// 拉起登录页
     case requireLogin = "requireauth"
+    /// 显示分享视图
+    case showShare = "showShareWindow"
     /// 打开新的H5
     case openNewWeb = "openNewPage"
-    /// 跳转原生页面
-    case toNativePage = "jumpNativeUiView"
-    /// 设置导航条
-    case setupNavigationBar = "setNavigationbar"
     /// 回退上一页
     case toPrevious = "goBackToPage"
+    /// 获取基本信息: 版本号、build号、网络、语言、主题、手机系统版本、机型、设备ID、渠道信息、当前时区、当前选中的法币、客户端类型、运营商、是否使用VPN
+    case getSystemInfo = "getSystemInfo"
+    /// 存储数据
+    case setItemSync = "setItemSync"
+    /// 获取存储的数据
+    case getItemSync = "getItemSync"
+    /// 移除存储的数据
+    case removeItemSync = "removeItemSync"
+    
+    /// 跳转原生页面
+    case toNativePage = "jumpNativeUiView"  // -> jumpNativeUIViewController
+    /// 设置导航条
+    case setupNavigationBar = "setNavigationbar"//  -> setNavigationBar
+    /// 选择图片
+    case chooseImage = "chooseImage"
     /// 拦截弹框
-    case showAlert = "setBreakbackInfos"
+    case showAlert = "setBreakbackInfos"  // -> setBreakBackInfos
     /// 关闭弹框---> 这个是否有必要
     case hideAlert = "clearBreakBackInfos"
-    
+    /// 下载图片
+    case downloadImage = "downloadImage"
+
 }
 
 
@@ -70,9 +85,12 @@ class SmartWebView: UIView, SmartWebViewJSHandler,WKNavigationDelegate {
         
         self.webView.navigationDelegate = self
         #warning("上线前需要移除")
-        self.webView.isInspectable = true;  // 支持是否可以调试
+        if #available(iOS 16.4, *) {
+            self.webView.isInspectable = true;  // 支持是否可以调试
+        }
         bridge.delegate = self
         addSubview(webView)
+        #warning("约束的处理")
         webView.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height-100)
 //        webView.snp.makeConstraints { make in
 //            make.edges.equalTo(self)
@@ -172,38 +190,42 @@ extension SmartWebView {
         
         let params = body["params"]
         let clientcallid = body["clientcallid"] as? String
-//        print("JS 调用原生方法：\(cmd), 参数: \(String(describing: params)), 调用ID: \(String(describing: clientcallid))")
+        print("====params:",params ?? "无");
+        let response = LBKSendMessageMode(code: 0, cmd: cmd, clientcallid: clientcallid, message: nil,  data:nil)
+        
         // TODO: Add specific action handlers here
         switch LBKJSCallType(rawValue: cmd) {
         case .getUserInfo:
-            
-            let data = ["test":222,"success":true].toJsonString()
-            // 这个data是实际要展示的数据，要方便外部传入，至于，其他的可以外部要求
-            #warning("这个要整理下，把data作为外部传入的方式才行")
-            
-//            let successModel = LBKSendMessageMode(code: 200, cmd: cmd, clientcallid: clientcallid, message: "sucess get userInfo",  data:data)
-//            callJSBridge(status: .done, result: successModel.toDictionary())
-//            let failedModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid,message: "sucess get userInfo", data:data)
-//            callJSBridge(status: .failed, result: failedModel.toDictionary())
-            
-            let cancelModel = LBKSendMessageMode(code: 400, cmd: cmd, clientcallid: clientcallid, message: nil, data: data)
-            callJSBridge(status: .canceled, result: cancelModel.toDictionary())
-
+            getUserInfo(message: response)
             print(cmd)
             
         case .requireLogin:
             print(cmd)
+        case .showShare:
+            print(cmd)
         case .openNewWeb:
+            print(cmd)
+        case .toPrevious:
+            print(cmd)
+        case .getSystemInfo:
+            print(cmd)
+        case .setItemSync:
+            print(cmd)
+        case .getItemSync:
+            print(cmd)
+        case .removeItemSync:
             print(cmd)
         case .toNativePage:
             print(cmd)
         case .setupNavigationBar:
             print(cmd)
-        case .toPrevious:
+        case .chooseImage:
             print(cmd)
         case .showAlert:
             print(cmd)
         case .hideAlert:
+            print(cmd)
+        case .downloadImage:
             print(cmd)
             
         default:
@@ -212,15 +234,14 @@ extension SmartWebView {
         }
     }
     
+    /// 处理未知指令信息
     func handleUnknownJSCall(_ message: WKScriptMessage, webView: WKWebView) {
         print("未知的 JS 调用，未处理：\(message.body)")
         let js = "window._nativeCallback && window._nativeCallback({ success: false, error: 'native method not found' });"
         webView.evaluateJavaScript(js, completionHandler: nil)
     }
-    
-    
     // 新增各种处理方法，回调也需要补充，然后看消息队列需要怎么实现
-    
+ 
 }
 
 
@@ -237,7 +258,7 @@ extension SmartWebView {
         }
         
         let jsCode = "LBKJsBridge.\(status.rawValue)('\(jsonString)');"
-        print(jsCode)
+//        print(jsCode)
         evaluateJS(jsCode, completion: completion)
     }
     

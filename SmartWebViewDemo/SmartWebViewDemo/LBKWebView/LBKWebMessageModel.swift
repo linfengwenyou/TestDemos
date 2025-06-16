@@ -8,13 +8,21 @@
 import Foundation
 
 // native->JS使用的模型
-struct LBKSendMessageMode {
-    let code: Int
+class LBKSendMessageMode {
+    var code: Int
     let cmd: String
     let clientcallid: String?
-    let message: String?
+    var message: String?
     var data: String?
-
+    
+    init(code: Int, cmd: String, clientcallid: String?, message: String? = nil, data: String? = nil) {
+        self.code = code
+        self.cmd = cmd
+        self.clientcallid = clientcallid
+        self.message = message
+        self.data = data
+    }
+    
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "code": code,
