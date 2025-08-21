@@ -22,7 +22,11 @@ class ViewController: UIViewController {
     
     // 传入URL
     func testForUrl() {
-        let vc = LBKWebController(url: URL(string: "https://m.lbk.world/zh-TC/js-bridge")!)
+//        let vc = LBKWebController(url: URL(string: "https://earnest-alpaca-0704f0.netlify.app/index.html")!)
+//        let vc = LBKWebController(url: URL(string: "https://www.mexc.com")!)
+        
+        let url = "https://www.lbk.world/zh-TC"
+        let vc = LBKWebController(url: URL(string: url)!)
         navigationController?.pushViewController(vc, animated: true)
     }
     

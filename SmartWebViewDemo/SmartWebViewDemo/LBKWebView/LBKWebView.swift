@@ -145,6 +145,9 @@ extension SmartWebView {
             config.applicationNameForUserAgent = defaultUa
         }
         
+        config.allowsInlineMediaPlayback = true
+        
+        
         return WebViewPool.shared.dequeueWebView(configuration: config)
     }
     
@@ -165,6 +168,25 @@ extension SmartWebView {
 extension SmartWebView {
     // 页面开始加载---> 这个线不用
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
+        
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+        
+        let scheme = url.scheme?.lowercased() ?? ""
+        
+        // 如果是自定义 Scheme（非 http/https）
+        if scheme != "http" && scheme != "https" {
+//            if UIApplication.shared.canOpenURL(url) { // 这个需要配置 LSApplicationQueriesSchemes 校验用的scheme
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            }
+            // 拦截 WebView，不让它自己跳转
+            decisionHandler(.cancel)
+            return
+        }
+        
+        
         fireEvent(.beforeCreate)
         decisionHandler(.allow)
     }
