@@ -17,7 +17,7 @@
 #import "AppDelegate.h"
 
 
-static NSString *appKey = @"257e40e1e9539ec553d94fd4";
+static NSString *appKey = @"1cd183036b7b27dc2f241676";
 static NSString *channel = @"Publish channel";
 static BOOL isProduction = FALSE;
 
@@ -76,7 +76,13 @@ static BOOL isProduction = FALSE;
 #pragma mark - push
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
+        // 这里是苹果 APNs 给你的 deviceToken
+    NSString *tokenString = [[deviceToken description]
+                             stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    tokenString = [tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+
+    NSLog(@"APNs deviceToken = %@", tokenString);
+
     /// Required - 注册 DeviceToken
     [MTPushService registerDeviceToken:deviceToken];
 }

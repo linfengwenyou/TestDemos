@@ -103,6 +103,8 @@ extension ViewController {
             LinkStruct(key: "活动测试页", value: "https://www.lbank.com/zh-TC/activity/AAA0912"),
             LinkStruct(key: "视频地址", value: "https://jid.lbk.world/media/customer/userAppeal/8afb79de-0ba4-4aff-8675-1a182d06d340.mp4"),
             LinkStruct(key: "百度新闻", value: "https://baijiahao.baidu.com/s?id=1844053904369404556"),
+            LinkStruct(key: "测试暗黑", value: "https://www.lbk.world/zh-TC/community"),
+            LinkStruct(key: "测试暗黑2", value: "https://www.lbk.world/zh-TC/activity/bonuspro/test092401"),
             LinkStruct(key: "xx1", value: "xx2"),
         ]
     }
