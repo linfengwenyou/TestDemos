@@ -1,0 +1,28 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'AppLinkDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for AppLinkDemo
+	pod 'MTPush', '5.2.0'
+
+  target 'AppLinkDemoTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'AppLinkDemoUITests' do
+    # Pods for testing
+  end
+
+end
+
+target 'AppServiceDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for AppServiceDemo
+
+end

@@ -13,7 +13,7 @@
 // 如果需要使用 idfa 功能所需要引入的头文件（可选）
 #import <AdSupport/AdSupport.h>
 
-
+#import "EngagePushManager.h"
 #import "AppDelegate.h"
 
 
@@ -76,15 +76,28 @@ static BOOL isProduction = FALSE;
 #pragma mark - push
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-        // 这里是苹果 APNs 给你的 deviceToken
-    NSString *tokenString = [[deviceToken description]
-                             stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    tokenString = [tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
-
-    NSLog(@"APNs deviceToken = %@", tokenString);
-
     /// Required - 注册 DeviceToken
     [MTPushService registerDeviceToken:deviceToken];
+
+
+    // 转成十六进制字符串
+    const unsigned char *dataBuffer = (const unsigned char *)deviceToken.bytes;
+    NSMutableString *hexToken = [NSMutableString stringWithCapacity:(deviceToken.length * 2)];
+    for (int i = 0; i < deviceToken.length; i++) {
+        [hexToken appendFormat:@"%02x", dataBuffer[i]];
+    }
+    NSLog(@"APNs deviceToken: %@", hexToken);
+
+    [EngagePushManager shareManager].appKey = appKey;
+    [EngagePushManager shareManager].deviceToken = hexToken;
+
+    [MTPushService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+        [EngagePushManager shareManager].registrationID = registrationID;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[EngagePushManager shareManager] updateValue];
+        });
+    }];
+
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -123,9 +136,33 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [MTPushService handleRemoteNotification:userInfo];
     }
-    
-    NSLog(@"接收到推送内容:%@",response.notification.request.content.description);
-    
+
+    UNNotificationRequest *request = response.notification.request;
+    UNNotificationContent *content = request.content;
+
+    NSString *title = content.title ?: @"";
+    NSString *subtitle = content.subtitle ?: @"";
+    NSString *body = content.body ?: @"";
+
+    NSString *userInfoStr = @"";
+    if (userInfo) {
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfo
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&error];
+        if (!error && jsonData) {
+            userInfoStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        } else {
+            userInfoStr = [userInfo description];
+        }
+    }
+
+    NSString *logStr = [NSString stringWithFormat:
+                        @"推送信息 => \n标题: %@\n副标题: %@\n正文: %@\nuserInfo: %@",
+                        title, subtitle, body, userInfoStr];
+
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEngagedPushNotification" object:logStr];
     
     completionHandler();    // 系统要求执行这个方法
 }

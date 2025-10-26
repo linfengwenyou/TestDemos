@@ -91,6 +91,7 @@ extension ViewController {
     func linkStrucs() -> [LinkStruct] {
         return [
             LinkStruct(key: "我的首页", value: "https://earnest-alpaca-0704f0.netlify.app/index.html"),
+            LinkStruct(key: "活动链接", value: "https://www.lbk.world/zh-TC/activity/anniversary-carnival"),
             LinkStruct(key: "首页schem", value: "applink://home"),
             LinkStruct(key: "产品schem", value: "applink://product"),
             LinkStruct(key: "注册schem", value: "applink-login://register"),
@@ -98,14 +99,15 @@ extension ViewController {
             LinkStruct(key: "bitget", value: "https://www.bitget.com/zh-CN/events/rewards-pack?clacCode=3VP7A2LY"),
             LinkStruct(key: "我的网站测试schem", value: "https://earnest-alpaca-0704f0.netlify.app/testLbank.html"),
             LinkStruct(key: "拉起App打开浏览器", value: "lbank://lbk.app/web?url=https://www.lbk.world/%25language_code%25/activity/qqqqqq7?origin=popular"),
-            LinkStruct(key: "hybrid新协议测试页", value: "https://www.lbk.world/zh-TC/js-bridge"),
+            LinkStruct(key: "hybrid新协议测试页", value: "https://www.lbk.world/zh-TC/js-bridge?backIconType=hidden"),
             LinkStruct(key: "活动测试页", value: "https://www.lbank.com/zh-TC/activity/2046-weekly-new-futures?themeMode=night"),
             LinkStruct(key: "活动测试页", value: "https://www.lbank.com/zh-TC/activity/AAA0912"),
             LinkStruct(key: "视频地址", value: "https://jid.lbk.world/media/customer/userAppeal/8afb79de-0ba4-4aff-8675-1a182d06d340.mp4"),
             LinkStruct(key: "百度新闻", value: "https://baijiahao.baidu.com/s?id=1844053904369404556"),
             LinkStruct(key: "测试暗黑", value: "https://www.lbk.world/zh-TC/community"),
             LinkStruct(key: "测试暗黑2", value: "https://www.lbk.world/zh-TC/activity/bonuspro/test092401"),
-            LinkStruct(key: "xx1", value: "xx2"),
+            LinkStruct(key: "测试页", value: "https://www.lbk.world/zh-TC/event/starpro3?backIconType=hidden"),
+            LinkStruct(key: "自研公告分享", value: "https://www.lbank.com/zh-TC/support/articles/1968929302644785152"),
         ]
     }
 }
